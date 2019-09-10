@@ -1,29 +1,25 @@
 function watchForm() {
-    $('.form-container').on('submit', '.dog-form', fetchDogs );
-    console.log("watchForm ran")
+    $('.form-container').on('submit', '.dog-form', fetchDogs );    
 }
 
 function fetchDogs() {
-    console.log("fetchDogs called");
-    event.preventDefault();
+    event.preventDefault();    
     let dogNum = $('.input-dogNum').val();
-    console.log(dogNum);
-    fetch(`https://dog.ceo/api/breeds/image/random/${dogNum}`)
-        .then(Response => Response.json())
-        // .then(responseJson => console.log(responseJson))  //commented out to expand app for part 2
-        .then(responseJson => displayDogs(responseJson))
-        .catch(error => alert(`Something wet wrong. ${error}`));
+    if (dogNum > 0 && dogNum < 51) {
+        fetch(`https://dog.ceo/api/breeds/image/random/${dogNum}`)
+            .then(Response => Response.json())
+            // .then(responseJson => console.log(responseJson))  //commented out to expand app for part 2
+            .then(responseJson => logDogs(responseJson))     // displayDogs(responseJson))
+            .catch(error => alert(`Something wet wrong. ${error}`));
+        } else { alert("You must enter a number between 1 and 50")}
+
 }
 
-function displayDogs(responseJson) {
-    console.log(responseJson.message);
-    let sectionHTML = ""
+function logDogs(responseJson) {
     for (let dog in responseJson.message) {
-        $('.dog-display').append(`<img src="${responseJson.message[dog]}" alt="random dog image">`)
-    } 
-    
-    
-    // let sectionHTML = ``
+        console.log(`${responseJson.message[dog]}`);
+    }  
 }
+
 
 $(watchForm);
